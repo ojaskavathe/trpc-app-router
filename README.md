@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a Next.js Template for using [tRPC](https://trpc.io/) with Next 13's App Router.
 
-## Getting Started
+It's a simple CRUD app using a Postgres Database (through [Prisma](https://www.prisma.io/)) running in a Docker container. It uses tRPC's [Fetch Adapter](https://trpc.io/docs/server/adapters/nextjs#route-handlers) with Next's [Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers) to host tRPC. It also handles requests with tRPC's [React Query Wrapper](https://trpc.io/docs/client/react).
 
-First, run the development server:
+Note that the [.env](/.env) file holds the database URL.
+
+## Setup
+
+First, run the database server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker compose up -d
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This installs the [PostgreSQL Image](https://hub.docker.com/_/postgres) and spins up a container with a volume.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Next, set up the database by running migrations, and start the development server: 
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npx prisma migrate dev
+npm run dev
+```
 
-## Learn More
+Alternatively, run migrations and start the server using:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev:migrate
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This starts a server listening at [http://localhost:3000](http://localhost:3000).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Why?
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+As of creating this repo, tRPC's [Next.js adapter](https://trpc.io/docs/server/adapters/nextjs) only works with the Pages Router. I wanted a simple template to refer to whenever I used tRPC with Next.js projects that use the App Router.
